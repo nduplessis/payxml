@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nico du Plessis"]
   spec.email         = ["duplessis.nico@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{A wrapper for the Paygate PayXML API.}
+  spec.description   = %q{PayXML is an easy use wrapper for the the Paygate PayXML payment gateway API.}
+  spec.homepage      = "https://github.com/nduplessis/payxml"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
