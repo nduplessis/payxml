@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+payxml = PayXML::PayXML.new( '111111111111', 'test' )
+```
 
 ## Development
 
