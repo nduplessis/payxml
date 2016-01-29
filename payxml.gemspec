@@ -5,7 +5,7 @@ require 'payxml/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "payxml"
-  spec.version       = Payxml::VERSION
+  spec.version       = PayXML::VERSION
   spec.authors       = ["Nico du Plessis"]
   spec.email         = ["duplessis.nico@gmail.com"]
 

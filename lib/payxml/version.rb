@@ -1,3 +1,3 @@
-module Payxml
+module PayXML
   VERSION = "0.1.0"
 end
