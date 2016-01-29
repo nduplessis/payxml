@@ -23,6 +23,8 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+require 'payxml'
+
 payxml = PayXML::PayXML.new( '111111111111', 'test' )
 ```
 
