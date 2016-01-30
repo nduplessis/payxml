@@ -22,10 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
+### Test vs Production
+
+### Example
+
 ```ruby
 require 'payxml'
 
-payxml = PayXML::PayXML.new( '111111111111', 'test' )
+payxml = PayXML::PayXML.new( '10011013800', 'test' )
 ```
 
 ## Development
