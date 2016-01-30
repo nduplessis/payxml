@@ -4,6 +4,8 @@
 
 PayXML is an easy use wrapper for the the PayGate PayXML payment gateway API.
 
+https://www.paygate.co.za
+
 ## Installation
 
 Add this line to your application's Gemfile:
