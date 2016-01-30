@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nduplessis/payxml.svg?branch=master)](https://travis-ci.org/nduplessis/payxml)
+
 # PayXML
 
 PayXML is an easy use wrapper for the the PayGate PayXML payment gateway API.
