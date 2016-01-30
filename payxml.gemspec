@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nico du Plessis"]
   spec.email         = ["duplessis.nico@gmail.com"]
 
-  spec.summary       = %q{A wrapper for the Paygate PayXML API.}
-  spec.description   = %q{PayXML is an easy use wrapper for the the Paygate PayXML payment gateway API.}
+  spec.summary       = %q{A wrapper for the PayGate PayXML API.}
+  spec.description   = %q{PayXML is an easy use wrapper for the the PayGate PayXML payment gateway API.}
   spec.homepage      = "https://github.com/nduplessis/payxml"
   spec.license       = "MIT"
 
