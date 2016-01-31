@@ -12,9 +12,18 @@ module PayXML
     end
 
     def self.parse( xml_string )
+      doc = Nokogiri::XML(xml_string)
+      protocol = doc.xpath("//protocol").first
+      message = self.new(protocol['pgid'], protocol['pwd'])
     end
 
     def to_s
+      xml_doc.to_s
+    end
+
+    protected
+
+    def xml_doc
       doc = Nokogiri::XML::Document.new
 
       protocol = Nokogiri::XML::Node.new "protocol", doc
@@ -23,7 +32,8 @@ module PayXML
       protocol['pwd'] = self.paygate_password
 
       doc << protocol
-      doc.to_s
+
+      doc
     end
   end
 

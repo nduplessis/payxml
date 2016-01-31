@@ -10,8 +10,8 @@ describe PayXML::Message do
  end
 
  it 'parses an xml string' do
-   message = PayXML::Message.new( '<protocol ver="4.0" pgid="10011013800" pwd="test">' )
+   message = PayXML::Message.parse( '<protocol ver="4.0" pgid="10011013800" pwd="test">' )
    expect(message.paygate_id).to eq('10011013800')
-   expect(message.paygate_id).to eq('test')
+   expect(message.paygate_password).to eq('test')
  end
 end
