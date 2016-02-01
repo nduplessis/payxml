@@ -42,32 +42,46 @@ module PayXML
     end
 
     class Response < Message
-      attr_accessor :customer_reference
-      attr_accessor :transaction_id
-      attr_accessor :card_type
-      attr_accessor :bno
-      attr_accessor :result_description
-      attr_accessor :result_code
-      attr_accessor :transaction_status_description
-      attr_accessor :transaction_status
-      attr_accessor :authorisation_code
-      attr_accessor :risk
+      attr_reader :customer_reference
+      attr_reader :transaction_id
+      attr_reader :card_type
+      attr_reader :bno
+      attr_reader :result_description
+      attr_reader :result_code
+      attr_reader :transaction_status_description
+      attr_reader :transaction_status
+      attr_reader :authorisation_code
+      attr_reader :risk
+      attr_reader :secure_redirect_url
+      attr_reader :secure_checksum
+
+      def requires_secure_redirect?
+        !self.secure_redirect_url.nil?
+      end
 
       def parse(xml_string)
         super(xml_string)
 
         doc = Nokogiri::XML(xml_string)
-        authtx = doc.xpath("//authrx").first
-        self.customer_reference = authtx['cref'] unless authtx['cref'].nil?
-        self.transaction_id = authtx['tid'] unless authtx['tid'].nil?
-        self.card_type = authtx['ctype'] unless authtx['ctype'].nil?
-        self.transaction_status = authtx['stat'] unless authtx['stat'].nil?
-        self.transaction_status_description = authtx['sdesc'] unless authtx['sdesc'].nil?
-        self.bno = authtx['bno'] unless authtx['bno'].nil?
-        self.result_code = authtx['res'] unless authtx['res'].nil?
-        self.result_description = authtx['rdesc'] unless authtx['rdesc'].nil?
-        self.authorisation_code = authtx['auth'] unless authtx['auth'].nil?
-        self.risk = authtx['risk'] unless authtx['risk'].nil?
+        authrx = doc.xpath("//authrx").first
+        securerx = doc.xpath("//securerx").first
+        if !authrx.nil?
+          @customer_reference = authrx['cref'] unless authrx['cref'].nil?
+          @transaction_id = authrx['tid'] unless authrx['tid'].nil?
+          @card_type = authrx['ctype'] unless authrx['ctype'].nil?
+          @transaction_status = authrx['stat'] unless authrx['stat'].nil?
+          @transaction_status_description = authrx['sdesc'] unless authrx['sdesc'].nil?
+          @bno = authrx['bno'] unless authrx['bno'].nil?
+          @result_code = authrx['res'] unless authrx['res'].nil?
+          @result_description = authrx['rdesc'] unless authrx['rdesc'].nil?
+          @authorisation_code = authrx['auth'] unless authrx['auth'].nil?
+          @risk = authrx['risk'] unless authrx['risk'].nil?
+        elsif !securerx.nil?
+          @customer_reference = securerx['cref'] unless securerx['cref'].nil?
+          @transaction_id = securerx['tid'] unless securerx['tid'].nil?
+          @secure_redirect_url = securerx['url'] unless securerx['url'].nil?
+          @secure_checksum = securerx['chk'] unless securerx['chk'].nil?
+        end
       end
     end
 

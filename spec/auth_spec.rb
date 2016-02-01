@@ -29,10 +29,10 @@ describe PayXML::Auth do
     it 'creates a cc attribute' do
       expect(@xml_doc.xpath("//authtx").first['cc']).to eq('4000000000000002')
     end
-  end #describe PayXML::AuthTX::Request
+  end #describe PayXML::Auth::Request
 
   describe PayXML::Auth::Response do
-    describe 'parse' do
+    describe 'parse response without secure redirect' do
       before(:context) do
         @message = PayXML::Auth::Response.allocate
         @message.parse('<protocol ver="4.0" pgid="10011013800" pwd="test"><authrx tid="123456" cref="cust ref 1" stat="1" sdesc="Approved" res="990017" rdesc="Auth Done" bno="" auth="F45287" risk="AX" ctype="1" /></protocol>')
@@ -81,7 +81,42 @@ describe PayXML::Auth do
       it 'parses risk from an xml string' do
         expect(@message.risk).to eq('AX')
       end
+
+      it 'requires secure redirect' do
+        expect(@message.requires_secure_redirect?).to eq(false)
+      end
     end
-  end #describe PayXML::AuthTX::Response
+
+    describe 'parse response with secure redirect' do
+      before(:context) do
+        @message = PayXML::Auth::Response.allocate
+        @message.parse('<protocol ver="4.0" pgid="10011013800" pwd="test"><securerx tid="123456" cref="cust ref 1" url="https://www.paygate.co.za/3dsecure/3dsecure.trans" chk="ab12cd34ef56gh78ij90kl12mn34op56" /></protocol>')
+      end
+
+      it 'parses paygate_id from an xml string' do
+        expect(@message.paygate_id).to eq('10011013800')
+      end
+
+      it 'parses paygate_password from an xml string' do
+        expect(@message.paygate_password).to eq('test')
+      end
+
+      it 'parses customer_reference from an xml string' do
+        expect(@message.customer_reference).to eq('cust ref 1')
+      end
+
+      it 'parses secure_redirect_url from an xml string' do
+        expect(@message.secure_redirect_url).to eq('https://www.paygate.co.za/3dsecure/3dsecure.trans')
+      end
+
+      it 'parses secure_checksum from an xml string' do
+        expect(@message.secure_checksum).to eq('ab12cd34ef56gh78ij90kl12mn34op56')
+      end
+
+      it 'requires secure redirect' do
+        expect(@message.requires_secure_redirect?).to eq(true)
+      end
+    end
+  end #describe PayXML::Auth::Response
 
 end
