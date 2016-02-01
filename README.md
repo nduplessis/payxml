@@ -33,6 +33,10 @@ require 'payxml'
 
 payxml = PayXML::PayXML.new( '10011013800', 'test' )
 response = payxml.authorise(customer_name, customer_reference, credit_card_number, expiry_date, cvv, amount, currency)
+
+if response.requires_secure_redirect?
+  # redirect to response.secure_redirect_url
+end
 ```
 
 ## Development
