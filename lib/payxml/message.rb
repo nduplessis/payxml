@@ -11,13 +11,14 @@ module PayXML
       self.paygate_password = paygate_password
     end
 
-    def self.parse( xml_string )
+    def parse(xml_string)
       doc = Nokogiri::XML(xml_string)
       protocol = doc.xpath("//protocol").first
-      message = self.new(protocol['pgid'], protocol['pwd'])
+      self.paygate_id = protocol['pgid']
+      self.paygate_password = protocol['pwd']
     end
 
-    def to_s
+    def xml_string
       xml_doc.to_s
     end
 

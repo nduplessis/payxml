@@ -1,7 +1,7 @@
 module PayXML
   module AuthTX
 
-    class Request < PayXML::Message
+    class Request < Message
       attr_accessor :customer_name
       attr_accessor :customer_reference
       attr_accessor :budget_period
@@ -11,24 +11,13 @@ module PayXML
       attr_accessor :bno
       attr_accessor :credit_card_number
 
-      def to_s
-        doc = Nokogiri::XML::Document.new
-        # root = PayXML::Protocol.new
-        #
-        # authtx = Nokogiri::XML::Node.new "authtx", doc
-        # authtx['cref'] = customer_reference
-        # authtx['cname'] = customer_name
-        # authtx['cc'] = credit_card_number
-        # authtx['exp'] = expiry_date
-        # authtx['budp'] = 0.to_s
-        # authtx['amt'] = amount
-        # authtx['cvv'] = currency
-        # authtx['bno'] = ''
-        #
-        # root << authx
-        # doc << root
+      def parse(xml_string)
+        super(xml_string)
 
-        doc.to_s
+        doc = Nokogiri::XML(xml_string)
+        authtx = doc.xpath("//authtx").first
+        self.customer_reference = authtx['cref']
+        self.customer_name = authtx['cname']
       end
     end
 
