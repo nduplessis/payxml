@@ -32,6 +32,7 @@ Or install it yourself as:
 require 'payxml'
 
 payxml = PayXML::PayXML.new( '10011013800', 'test' )
+payxml.authorise(customer_name, customer_reference, credit_card_number, expiry_date, cvv, amount, currency)
 ```
 
 ## Development

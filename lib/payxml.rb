@@ -16,7 +16,7 @@ module PayXML
       @paygate_password = paygate_password
     end
 
-    def authtx(customer_name, customer_reference, credit_card_number, expiry_date, cvv, amount, currency, options = { budget_period: 0, bno: '' })
+    def authorise(customer_name, customer_reference, credit_card_number, expiry_date, cvv, amount, currency, options = { budget_period: 0, bno: '' })
       authtx = Auth::Request.new(@paygate_id, @paygate_password)
       authx.customer_reference = customer_reference
       authx.customer_name = customer_name
