@@ -1,8 +1,11 @@
 require "payxml/version"
 require "payxml/result_codes"
 require "payxml/credit_card_types"
+require "payxml/message"
+require "payxml/auth"
 require "nokogiri"
 require 'digest'
+require 'net/http'
 
 module PayXML
   class PayXML
@@ -18,18 +21,23 @@ module PayXML
 
     def authorise(customer_name, customer_reference, credit_card_number, expiry_date, cvv, amount, currency, options = { budget_period: 0, bno: '' })
       authtx = Auth::Request.new(@paygate_id, @paygate_password)
-      authx.customer_reference = customer_reference
-      authx.customer_name = customer_name
-      authx.credit_card_number = credit_card_number
-      # authx. = expiry_date
-      # authx['budp'] = 0.to_s
-      # authx['amt'] = amount
-      # authx['cvv'] = currency
-      # authx['bno'] = ''
+      authtx.customer_reference = customer_reference
+      authtx.customer_name = customer_name
+      authtx.credit_card_number = credit_card_number
+      authtx.expiry_date = expiry_date
+      authtx.currency = currency
+      authtx.amount = amount
+      authtx.cvv = cvv
 
-      response = post_request_body(authx.xml_string)
-      response_object = PayXML::Auth::Response.allocate
-      response_object.parse(response)
+      puts "#{expiry_date} : #{authtx.expiry_date}"
+      puts authtx.xml_string
+
+      response = post_request_body(authtx.xml_string)
+      response_object = Auth::Response.allocate
+      response_object.parse(response.body)
+
+      puts response.body
+
       response_object
     end
 

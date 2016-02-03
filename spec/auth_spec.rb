@@ -7,7 +7,11 @@ describe PayXML::Auth do
       @message.customer_reference = 'cust ref 1'
       @message.customer_name = 'Joe Soap'
       @message.credit_card_number = '4000000000000002'
-
+      @message.expiry_date = '122016'
+      @message.currency = 'ZAR'
+      @message.amount = 3250
+      @message.budget_period = 12
+      @message.bno = '12345'
       @xml_doc  = Nokogiri::XML(@message.xml_string)
 
     end
@@ -28,6 +32,26 @@ describe PayXML::Auth do
 
     it 'creates a cc attribute' do
       expect(@xml_doc.xpath("//authtx").first['cc']).to eq('4000000000000002')
+    end
+
+    it 'creates an expity_date attribute' do
+      expect(@xml_doc.xpath("//authtx").first['exp']).to eq('122016')
+    end
+
+    it 'creates a currency attribute' do
+      expect(@xml_doc.xpath("//authtx").first['cur']).to eq('ZAR')
+    end
+
+    it 'creates an amount attribute' do
+      expect(@xml_doc.xpath("//authtx").first['amt']).to eq('3250')
+    end
+
+    it 'creates a budget_period attribute' do
+      expect(@xml_doc.xpath("//authtx").first['budp']).to eq('12')
+    end
+
+    it 'creates a bno attribute' do
+      expect(@xml_doc.xpath("//authtx").first['bno']).to eq('12345')
     end
   end #describe PayXML::Auth::Request
 

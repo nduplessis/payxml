@@ -1,6 +1,5 @@
 module PayXML
   module Auth
-
     class Request < Message
       attr_accessor :customer_name
       attr_accessor :customer_reference
@@ -11,6 +10,9 @@ module PayXML
       attr_accessor :credit_card_number
       attr_accessor :cvv
       attr_accessor :expiry_date
+
+      @budget_period = 0
+      @bno = ''
 
       def parse(xml_string)
         super(xml_string)
@@ -35,6 +37,11 @@ module PayXML
         authtx['cref'] = self.customer_reference
         authtx['cname'] = self.customer_name
         authtx['cc'] = self.credit_card_number
+        authtx['exp'] = self.expiry_date
+        authtx['cur'] = self.currency
+        authtx['amt'] = self.amount.to_s
+        authtx['budp'] = self.budget_period.to_s
+        authtx['bno'] = self.bno
         protocol.add_child(authtx)
 
         doc
