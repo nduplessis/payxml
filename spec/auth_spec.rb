@@ -12,6 +12,7 @@ describe PayXML::Auth do
       @message.amount = 3250
       @message.budget_period = 12
       @message.bno = '12345'
+      @message.cvv = '123'
       @xml_doc  = Nokogiri::XML(@message.xml_string)
 
     end
@@ -52,6 +53,10 @@ describe PayXML::Auth do
 
     it 'creates a bno attribute' do
       expect(@xml_doc.xpath("//authtx").first['bno']).to eq('12345')
+    end
+
+    it 'creates a cvv attribute' do
+      expect(@xml_doc.xpath("//authtx").first['cvv']).to eq('123')
     end
   end #describe PayXML::Auth::Request
 

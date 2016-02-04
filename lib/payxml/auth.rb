@@ -11,8 +11,12 @@ module PayXML
       attr_accessor :cvv
       attr_accessor :expiry_date
 
-      @budget_period = 0
-      @bno = ''
+      def initialize(paygate_id, paygate_password)
+        super(paygate_id, paygate_password)
+
+        @budget_period = 0
+        @bno = ''
+      end
 
       def parse(xml_string)
         super(xml_string)
@@ -42,6 +46,7 @@ module PayXML
         authtx['amt'] = self.amount.to_s
         authtx['budp'] = self.budget_period.to_s
         authtx['bno'] = self.bno
+        authtx['cvv'] = self.cvv
         protocol.add_child(authtx)
 
         doc
