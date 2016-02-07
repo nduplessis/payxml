@@ -2,6 +2,7 @@ require "payxml/version"
 require "payxml/result_codes"
 require "payxml/credit_card_types"
 require "payxml/message"
+require "payxml/error"
 require "payxml/auth"
 require "nokogiri"
 require 'digest'
@@ -33,8 +34,14 @@ module PayXML
       puts authtx.xml_string
 
       response = post_request_body(authtx.xml_string)
-      response_object = Auth::Response.allocate
-      response_object.parse(response.body)
+
+      if !(response.body =~ /errorrx/i).nil?
+        response_object = Error.allocate
+        response_object.parse(response.body)
+      elsif !(response.body =~ /authtx/i).nil?
+        response_object = Auth::Response.allocate
+        response_object.parse(response.body)
+      end
 
       puts response.body
 
