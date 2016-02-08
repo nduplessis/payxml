@@ -1,5 +1,9 @@
 module PayXML
 
+  ##
+  # This class represents the base class for all XML message payloads used
+  # for the PayXML API.
+
   class Message
     attr_accessor :paygate_id
     attr_accessor :paygate_password

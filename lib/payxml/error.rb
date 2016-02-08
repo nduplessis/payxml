@@ -1,4 +1,7 @@
 module PayXML
+
+  ##
+  # Wraps an error message from the API.
   class Error < Message
     attr_reader :code
     attr_reader :description

@@ -38,9 +38,10 @@ module PayXML
       protected
       def xml_doc
         doc = super
-
         protocol = doc.xpath("//protocol").first
         authtx = Nokogiri::XML::Node.new "authtx", doc
+
+        # Required values
         authtx['cref'] = self.customer_reference
         authtx['cname'] = self.customer_name
         authtx['cc'] = self.credit_card_number
@@ -51,7 +52,7 @@ module PayXML
         authtx['bno'] = self.bno
         authtx['cvv'] = self.cvv
 
-        # optional values for 3D sercure auth
+        # Optional values for 3D sercure auth
         authtx['ip'] = self.customer_ip_address unless self.customer_ip_address.nil?
         authtx['nurl'] = self.notify_callback_url unless self.notify_callback_url.nil?
         authtx['rurl'] = self.response_url unless self.response_url.nil?
