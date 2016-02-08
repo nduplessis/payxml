@@ -10,6 +10,9 @@ module PayXML
       attr_accessor :credit_card_number
       attr_accessor :cvv
       attr_accessor :expiry_date
+      attr_accessor :customer_ip_address
+      attr_accessor :notify_callback_url
+      attr_accessor :response_url
 
       def initialize(paygate_id, paygate_password)
         super(paygate_id, paygate_password)
@@ -47,6 +50,12 @@ module PayXML
         authtx['budp'] = self.budget_period.to_s
         authtx['bno'] = self.bno
         authtx['cvv'] = self.cvv
+
+        # optional values for 3D sercure auth
+        authtx['ip'] = self.customer_ip_address unless self.customer_ip_address.nil?
+        authtx['nurl'] = self.notify_callback_url unless self.notify_callback_url.nil?
+        authtx['rurl'] = self.response_url unless self.response_url.nil?
+
         protocol.add_child(authtx)
 
         doc

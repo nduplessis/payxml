@@ -13,6 +13,9 @@ describe PayXML::Auth do
       @message.budget_period = 12
       @message.bno = '12345'
       @message.cvv = '123'
+      @message.customer_ip_address = '127.0.0.1'
+      @message.notify_callback_url = 'http://mysite.dev/notify'
+      @message.response_url = 'http://mysite.dev/order-complete'
       @xml_doc  = Nokogiri::XML(@message.xml_string)
 
     end
@@ -57,6 +60,18 @@ describe PayXML::Auth do
 
     it 'creates a cvv attribute' do
       expect(@xml_doc.xpath("//authtx").first['cvv']).to eq('123')
+    end
+
+    it 'creates an ip attribute' do
+      expect(@xml_doc.xpath("//authtx").first['ip']).to eq('127.0.0.1')
+    end
+
+    it 'creates an nurl attribute' do
+      expect(@xml_doc.xpath("//authtx").first['nurl']).to eq('http://mysite.dev/notify')
+    end
+
+    it 'creates an rurl attribute' do
+      expect(@xml_doc.xpath("//authtx").first['rurl']).to eq('http://mysite.dev/order-complete')
     end
   end #describe PayXML::Auth::Request
 
