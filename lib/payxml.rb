@@ -34,8 +34,6 @@ module PayXML
       authtx.notify_callback_url = options[:notify_callback_url]
       authtx.response_url = options[:response_url]
 
-      puts authtx.xml_string
-
       response = post_request_body(authtx.xml_string)
 
       if !(response.body =~ /errorrx/i).nil?
@@ -45,8 +43,6 @@ module PayXML
         response_object = Auth::Response.allocate
         response_object.parse(response.body)
       end
-
-      puts response.body
 
       response_object
     end
