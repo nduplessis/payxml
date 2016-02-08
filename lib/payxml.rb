@@ -20,15 +20,15 @@ module PayXML
       @paygate_password = paygate_password
     end
 
-    def authorise(customer_name, customer_reference, credit_card_number, expiry_date, cvv, amount, currency, options = { budget_period: 0, bno: '' })
+    def authorise(options = {})
       authtx = Auth::Request.new(@paygate_id, @paygate_password)
-      authtx.customer_reference = customer_reference
-      authtx.customer_name = customer_name
-      authtx.credit_card_number = credit_card_number
-      authtx.expiry_date = expiry_date
-      authtx.currency = currency
-      authtx.amount = amount
-      authtx.cvv = cvv
+      authtx.customer_reference = options[:customer_reference]
+      authtx.customer_name = options[:customer_name]
+      authtx.credit_card_number = options[:credit_card_number]
+      authtx.expiry_date = options[:expiry_date]
+      authtx.currency = options[:currency]
+      authtx.amount = options[:amount]
+      authtx.cvv = options[:cvv]
 
       puts "#{expiry_date} : #{authtx.expiry_date}"
       puts authtx.xml_string
