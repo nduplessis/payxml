@@ -35,7 +35,7 @@ Or install it yourself as:
 require 'payxml'
 
 payxml = PayXML::PayXML.new( '10011013800', 'test' )
-response = payxml.authorise({customer_name: 'John Doe', customer_reference: 'customer ref 1', credit_card_number: '4000000000000002', expiry_date: '122018', cvv: '123', amount: '30020', currency: 'ZAR', notify_callback_url: 'http://mysite.dev/notify', response_url: 'http://mysite.dev/order-complete'})
+response = payxml.purchase({customer_name: 'John Doe', customer_reference: 'customer ref 1', credit_card_number: '4000000000000002', expiry_date: '122018', cvv: '123', amount: '30020', currency: 'ZAR', notify_callback_url: 'http://mysite.dev/notify', response_url: 'http://mysite.dev/order-complete'})
 
 if response.requires_secure_redirect?
   # redirect to response.secure_redirect_url

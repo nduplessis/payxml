@@ -20,7 +20,7 @@ module PayXML
       @paygate_password = paygate_password
     end
 
-    def authorise(options = {})
+    def purchase(options = {})
       authtx = Auth::Request.new(@paygate_id, @paygate_password)
       authtx.customer_reference = options[:customer_reference]
       authtx.customer_name = options[:customer_name]
