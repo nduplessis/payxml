@@ -30,14 +30,8 @@ module PayXML
       authtx.response_url = options[:response_url]
 
       response = post_request_body(authtx.xml_string)
-
-      if !(response.body =~ /errorrx/i).nil?
-        response_object = Error.allocate
-        response_object.parse(response.body)
-      else
-        response_object = Auth::Response.allocate
-        response_object.parse(response.body)
-      end
+      response_object = Auth::Response.allocate
+      response_object.parse(response.body)
 
       response_object
     end

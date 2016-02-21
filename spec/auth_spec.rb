@@ -150,7 +150,7 @@ describe PayXML::Auth do
       end
 
       it 'parses secure_redirect_url from an xml string' do
-        expect(@message.secure_redirect_url).to eq('https://www.paygate.co.za/3dsecure/3dsecure.trans')
+        expect(@message.secure_redirect_url).to eq('https://www.paygate.co.za/3dsecure/3dsecure.trans?PAYGATE_ID=10011013800&TRANS_ID=123456&CHECKSUM=ab12cd34ef56gh78ij90kl12mn34op56')
       end
 
       it 'parses secure_checksum from an xml string' do

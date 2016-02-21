@@ -76,6 +76,8 @@ module PayXML
       attr_reader :risk
       attr_reader :secure_redirect_url
       attr_reader :secure_checksum
+      attr_reader :error_code
+      attr_reader :error_description
 
       def requires_secure_redirect?
         !self.secure_redirect_url.nil?
@@ -84,25 +86,32 @@ module PayXML
       def parse(xml_string)
         super(xml_string)
 
-        doc = Nokogiri::XML(xml_string)
-        authrx = doc.xpath("//authrx").first
-        securerx = doc.xpath("//securerx").first
-        if !authrx.nil?
-          @customer_reference = authrx['cref'] unless authrx['cref'].nil?
-          @transaction_id = authrx['tid'] unless authrx['tid'].nil?
-          @card_type = authrx['ctype'] unless authrx['ctype'].nil?
-          @transaction_status = authrx['stat'] unless authrx['stat'].nil?
-          @transaction_status_description = authrx['sdesc'] unless authrx['sdesc'].nil?
-          @bno = authrx['bno'] unless authrx['bno'].nil?
-          @result_code = authrx['res'] unless authrx['res'].nil?
-          @result_description = authrx['rdesc'] unless authrx['rdesc'].nil?
-          @authorisation_code = authrx['auth'] unless authrx['auth'].nil?
-          @risk = authrx['risk'] unless authrx['risk'].nil?
-        elsif !securerx.nil?
-          @customer_reference = securerx['cref'] unless securerx['cref'].nil?
-          @transaction_id = securerx['tid'] unless securerx['tid'].nil?
-          @secure_checksum = securerx['chk'] unless securerx['chk'].nil?
-          @secure_redirect_url = "#{securerx['url']}?PAYGATE_ID=#{self.paygate_id}&TRANS_ID=#{self.transaction_id}&CHECKSUM=#{self.secure_checksum}" unless securerx['url'].nil?
+        if !(xml_string =~ /errorrx/i).nil?
+          error = Error.allocate
+          error.parse(response.body)
+          self.error_code = error.error_code
+          self.error_description = error.error_description
+        else
+          doc = Nokogiri::XML(xml_string)
+          authrx = doc.xpath("//authrx").first
+          securerx = doc.xpath("//securerx").first
+          if !authrx.nil?
+            @customer_reference = authrx['cref'] unless authrx['cref'].nil?
+            @transaction_id = authrx['tid'] unless authrx['tid'].nil?
+            @card_type = authrx['ctype'] unless authrx['ctype'].nil?
+            @transaction_status = authrx['stat'] unless authrx['stat'].nil?
+            @transaction_status_description = authrx['sdesc'] unless authrx['sdesc'].nil?
+            @bno = authrx['bno'] unless authrx['bno'].nil?
+            @result_code = authrx['res'] unless authrx['res'].nil?
+            @result_description = authrx['rdesc'] unless authrx['rdesc'].nil?
+            @authorisation_code = authrx['auth'] unless authrx['auth'].nil?
+            @risk = authrx['risk'] unless authrx['risk'].nil?
+          elsif !securerx.nil?
+            @customer_reference = securerx['cref'] unless securerx['cref'].nil?
+            @transaction_id = securerx['tid'] unless securerx['tid'].nil?
+            @secure_checksum = securerx['chk'] unless securerx['chk'].nil?
+            @secure_redirect_url = "#{securerx['url']}?PAYGATE_ID=#{self.paygate_id}&TRANS_ID=#{self.transaction_id}&CHECKSUM=#{self.secure_checksum}" unless securerx['url'].nil?
+          end
         end
       end
     end
