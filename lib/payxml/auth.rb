@@ -101,8 +101,8 @@ module PayXML
         elsif !securerx.nil?
           @customer_reference = securerx['cref'] unless securerx['cref'].nil?
           @transaction_id = securerx['tid'] unless securerx['tid'].nil?
-          @secure_redirect_url = securerx['url'] unless securerx['url'].nil?
           @secure_checksum = securerx['chk'] unless securerx['chk'].nil?
+          @secure_redirect_url = "#{securerx['url']}?PAYGATE_ID=#{self.paygate_id}&TRANS_ID=#{self.transaction_id}&CHECKSUM=#{self.secure_checksum}" unless securerx['url'].nil?
         end
       end
     end
