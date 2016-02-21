@@ -89,8 +89,8 @@ module PayXML
         if !(xml_string =~ /errorrx/i).nil?
           error = Error.allocate
           error.parse(xml_string)
-          self.error_code = error.code
-          self.error_description = error.description
+          @error_code = error.code
+          @error_description = error.description
         else
           doc = Nokogiri::XML(xml_string)
           authrx = doc.xpath("//authrx").first
