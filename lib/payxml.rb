@@ -10,10 +10,6 @@ require 'net/http'
 
 module PayXML
   class PayXML
-    # PayXML API version number
-    PAYXML_VERSION_NUMBER = '4.0'
-
-    PAYXML_URL = 'https://www.paygate.co.za/payxml/process.trans'
 
     def initialize(paygate_id, paygate_password)
       @paygate_id = paygate_id
@@ -29,7 +25,6 @@ module PayXML
       authtx.currency = options[:currency]
       authtx.amount = options[:amount]
       authtx.cvv = options[:cvv]
-
       authtx.customer_ip_address = options[:customer_ip_address]
       authtx.notify_callback_url = options[:notify_callback_url]
       authtx.response_url = options[:response_url]
@@ -54,6 +49,14 @@ module PayXML
     end
 
     protected
+
+    # PayXML API version number
+    PAYXML_VERSION_NUMBER = '4.0'
+    PAYXML_URL = 'https://www.paygate.co.za/payxml/process.trans'
+    TEST_USER_3D_SECURE = '10011013800'
+    TEST_USER_NO_3D_SECURE = ''
+    TEST_PASSWORD = 'test'
+
     def post_request_body(xml_body)
       uri = URI.parse PAYXML_URL
       request = Net::HTTP::Post.new uri.path
