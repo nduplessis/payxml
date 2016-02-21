@@ -88,7 +88,7 @@ module PayXML
 
         if !(xml_string =~ /errorrx/i).nil?
           error = Error.allocate
-          error.parse(response.body)
+          error.parse(xml_string)
           self.error_code = error.error_code
           self.error_description = error.error_description
         else
